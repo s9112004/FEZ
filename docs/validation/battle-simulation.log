@@ -1,0 +1,6 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+MATCH START: 10 vs 10; 1 player, 19 AI
+MATCH END: winning team 0 at 47.2s
+SIMULATION: 47.2s | deaths=73 respawns=65 base_damage=1996 match_over=true winner=0
+PASS: 19 AI autonomously fight, respawn, attack base and finish match

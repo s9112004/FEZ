@@ -1,0 +1,107 @@
+[gd_scene load_steps=16 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_blue"]
+albedo_color = Color(0.12, 0.4, 0.72, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_steel"]
+albedo_color = Color(0.65, 0.72, 0.76, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_dark"]
+albedo_color = Color(0.13, 0.18, 0.23, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="Mat_gold"]
+albedo_color = Color(0.85, 0.64, 0.22, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_Torso"]
+size = Vector3(0.62, 0.65, 0.36)
+
+[sub_resource type="BoxMesh" id="Mesh_Helmet"]
+size = Vector3(0.5, 0.42, 0.44)
+
+[sub_resource type="BoxMesh" id="Mesh_Visor"]
+size = Vector3(0.34, 0.09, 0.03)
+
+[sub_resource type="BoxMesh" id="Mesh_Belt"]
+size = Vector3(0.64, 0.12, 0.38)
+
+[sub_resource type="BoxMesh" id="Mesh_LeftLeg"]
+size = Vector3(0.23, 0.65, 0.28)
+
+[sub_resource type="BoxMesh" id="Mesh_RightLeg"]
+size = Vector3(0.23, 0.65, 0.28)
+
+[sub_resource type="BoxMesh" id="Mesh_LeftArm"]
+size = Vector3(0.22, 0.6, 0.26)
+
+[sub_resource type="BoxMesh" id="Mesh_RightArm"]
+size = Vector3(0.22, 0.6, 0.26)
+
+[sub_resource type="BoxMesh" id="Mesh_Shield"]
+size = Vector3(0.12, 0.68, 0.5)
+
+[sub_resource type="BoxMesh" id="Mesh_Blade"]
+size = Vector3(0.09, 0.85, 0.06)
+
+[sub_resource type="BoxMesh" id="Mesh_Guard"]
+size = Vector3(0.3, 0.06, 0.1)
+
+[node name="ScoutVisual" type="Node3D"]
+
+[node name="Torso" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.05, 0)
+mesh = SubResource("Mesh_Torso")
+material_override = SubResource("Mat_blue")
+
+[node name="Helmet" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.57, 0)
+mesh = SubResource("Mesh_Helmet")
+material_override = SubResource("Mat_steel")
+
+[node name="Visor" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.56, -0.23)
+mesh = SubResource("Mesh_Visor")
+material_override = SubResource("Mat_dark")
+
+[node name="Belt" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.78, 0)
+mesh = SubResource("Mesh_Belt")
+material_override = SubResource("Mat_dark")
+
+[node name="LeftLeg" type="MeshInstance3D" parent="."]
+position = Vector3(-0.18, 0.38, 0)
+mesh = SubResource("Mesh_LeftLeg")
+material_override = SubResource("Mat_dark")
+
+[node name="RightLeg" type="MeshInstance3D" parent="."]
+position = Vector3(0.18, 0.38, 0)
+mesh = SubResource("Mesh_RightLeg")
+material_override = SubResource("Mat_dark")
+
+[node name="LeftArm" type="MeshInstance3D" parent="."]
+position = Vector3(-0.44, 1.03, 0)
+mesh = SubResource("Mesh_LeftArm")
+material_override = SubResource("Mat_steel")
+
+[node name="RightArm" type="MeshInstance3D" parent="."]
+position = Vector3(0.44, 1.03, 0)
+mesh = SubResource("Mesh_RightArm")
+material_override = SubResource("Mat_steel")
+
+[node name="Shield" type="MeshInstance3D" parent="."]
+position = Vector3(-0.55, 1.03, -0.24)
+mesh = SubResource("Mesh_Shield")
+material_override = SubResource("Mat_blue")
+
+[node name="Blade" type="MeshInstance3D" parent="."]
+position = Vector3(0.5, 1.08, -0.42)
+mesh = SubResource("Mesh_Blade")
+material_override = SubResource("Mat_steel")
+
+[node name="Guard" type="MeshInstance3D" parent="."]
+position = Vector3(0.5, 0.68, -0.42)
+mesh = SubResource("Mesh_Guard")
+material_override = SubResource("Mat_gold")
