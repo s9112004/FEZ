@@ -56,3 +56,5 @@
 - 本地 work 分支為未提交狀態，改名 main，準備首次提交。
 - 交付包含 Godot 專案、原創素材、設計/工作宗旨/日誌、測試與截圖；排除 .godot/ 快取。
 - 遊戲程式未再變更，沿用上一輪已通過的完整驗證結果。
+- 首次提交 ae6101e 成功推送至 origin/main，已設定追蹤分支；遠端 main 與本地提交一致。
+- GitHub 本機下載入口：https://github.com/s9112004/FEZ/archive/refs/heads/main.zip 。解壓後使用 Godot 4.6.3 匯入 project.godot，按 F5。
