@@ -1,15 +1,15 @@
 extends Node
 ## Single authority for player and AI attacks. No controllers write HP.
 const ATTACK_RANGE: float = 2.8
-const ATTACK_DAMAGE: float = 26.0
-const ATTACK_COOLDOWN: float = 0.65
+const ATTACK_DAMAGE: float = 18.0
+const ATTACK_COOLDOWN: float = 0.8
 const SKILL_RANGE: float = 4.5
-const SKILL_DAMAGE: float = 42.0
+const SKILL_DAMAGE: float = 28.0
 const SKILL_COOLDOWN: float = 5.0
 var world: Node3D
 
 func try_attack(attacker: UnitBody, preferred: Node3D = null) -> bool:
-	if world.match_over or not attacker.is_alive or attacker.attack_remaining > 0:
+	if world.match_over or not attacker.is_alive or attacker.attack_remaining > 0 or attacker.dodge_remaining > 0:
 		return false
 	var target: Node3D = null
 	if _valid_target(attacker, preferred, ATTACK_RANGE, true):
@@ -23,15 +23,19 @@ func try_attack(attacker: UnitBody, preferred: Node3D = null) -> bool:
 					best_distance = distance
 					target = candidate
 	attacker.attack_remaining = ATTACK_COOLDOWN
+	attacker.spawn_guard = 0
+	attacker.visual.play_attack(false)
 	world.show_attack_effect(attacker, ATTACK_RANGE, false)
 	if target:
 		target.take_damage(ATTACK_DAMAGE, attacker.team)
 	return true
 
 func try_skill(attacker: UnitBody) -> bool:
-	if world.match_over or not attacker.is_alive or attacker.skill_remaining > 0:
+	if world.match_over or not attacker.is_alive or attacker.skill_remaining > 0 or attacker.dodge_remaining > 0:
 		return false
 	attacker.skill_remaining = SKILL_COOLDOWN
+	attacker.spawn_guard = 0
+	attacker.visual.play_attack(true)
 	world.show_attack_effect(attacker, SKILL_RANGE, true)
 	for target in world.damage_targets:
 		if _valid_target(attacker, target, SKILL_RANGE, false):

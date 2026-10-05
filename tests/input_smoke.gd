@@ -48,7 +48,9 @@ func _run() -> void:
 	await physics_frame
 	await physics_frame
 	key(KEY_Q, false)
-	check(enemy.hp == 58, "Q input must execute skill")
+	check(enemy.hp == 152, "Q input must execute skill")
+	for frame in range(26):
+		await physics_frame
 	var click := InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
@@ -57,7 +59,13 @@ func _run() -> void:
 	await physics_frame
 	click.pressed = false
 	Input.parse_input_event(click)
-	check(enemy.hp == 32, "LMB input must execute normal attack")
+	check(enemy.hp == 134, "LMB input must execute normal attack")
+	var before_dodge: Vector3 = world.player.position
+	key(KEY_SPACE, true)
+	for frame in range(16):
+		await physics_frame
+	key(KEY_SPACE, false)
+	check(world.player.position.distance_to(before_dodge) > 3 and world.player.dodge_cooldown > 0, "Space input evades and starts cooldown")
 	world.bases[1].take_damage(9999, 0)
 	await process_frame
 	await process_frame
@@ -72,6 +80,6 @@ func _run() -> void:
 	await physics_frame
 	key(KEY_R, false)
 	check(is_instance_valid(current_scene) and current_scene != world, "R input must reload scene")
-	check(current_scene.units.size() == 20 and not current_scene.match_over and current_scene.bases[1].hp == 1200, "restart restores new match")
+	check(current_scene.units.size() == 20 and not current_scene.match_over and current_scene.bases[1].hp == 3600, "restart restores new match")
 	print("INPUT CHECKS: %d passed, %d failed" % [checks - failures, failures])
 	quit(1 if failures else 0)

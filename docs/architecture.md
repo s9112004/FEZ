@@ -11,7 +11,8 @@
 | scripts/actors/stronghold.gd | 據點生命值與摧毀事件 |
 | scripts/combat/combat_system.gd | 共用普攻/技能、距離、冷卻、朝向、友傷規則 |
 | scripts/controllers | 玩家输入、軌道鏡頭、AI 意圖；不直接改 HP |
-| scripts/ui/battle_hud.gd | 血量、戰況、目標、冷卻與結果 |
+| scripts/ui | 血量、戰況、目標、冷卻、結果與小地圖 |
+| scripts/visuals | 原創人形程序關節動畫、揮劍軌跡與衝擊波特效 |
 | assets | 原創角色與戰場裝飾，與遊戲邏輯分開 |
 | tests | 真實場景功能、輸入、AI 全場模擬、圖形截圖 |
 | scripts/verify.sh | 匯入與必要測試；檢查退出狀態及 Godot error log |
@@ -31,4 +32,4 @@ AI 敌人查詢每 0.2 秒錯峰執行，使用中央快取列表，不每幀掃
 - 大地圖前：空間查詢、導航、AI 小隊/指揮與效能 profiler。
 - 現階段不預先引入 ECS、多執行緒或連線系統。
 
-第一個里程碑已具備戰鬥閉環；動畫、音樂、複雜地形與 50 vs 50 效能尚未完成。
+第一個里程碑已具備戰鬥閉環；已有基本程序動畫；正式骨骼蒙皮動畫、音樂、複雜地形與 50 vs 50 效能尚未完成。

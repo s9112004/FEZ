@@ -2,8 +2,8 @@ extends Camera3D
 ## Orbit camera; flat arena keeps the camera clear of decorative geometry.
 var follow_target: Node3D
 var yaw: float = 0.0
-var pitch: float = 0.42
-var distance: float = 9.0
+var pitch: float = 0.32
+var distance: float = 6.5
 var sensitivity: float = 0.003
 
 func _ready() -> void:
@@ -19,7 +19,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			distance = maxf(5.0, distance - 1.0)
+			distance = maxf(4.5, distance - 1.0)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			distance = minf(16.0, distance + 1.0)
 		elif event.button_index == MOUSE_BUTTON_LEFT and DisplayServer.get_name() != "headless":
@@ -31,4 +31,4 @@ func _process(_delta: float) -> void:
 	var focus := follow_target.global_position + Vector3(0, 1.3, 0)
 	var offset := Vector3(sin(yaw) * cos(pitch), sin(pitch), cos(yaw) * cos(pitch)) * distance
 	global_position = focus + offset
-	look_at(focus)
+	look_at(focus + Vector3(-sin(yaw), 0, -cos(yaw)) * 2.0)

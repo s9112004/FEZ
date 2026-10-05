@@ -2,8 +2,8 @@ class_name Stronghold
 extends Node3D
 signal destroyed(base: Stronghold)
 var team: int = 0
-var max_hp: float = 1200.0
-var hp: float = 1200.0
+var max_hp: float = 3600.0
+var hp: float = 3600.0
 var is_alive: bool = true
 var health_label: Label3D
 

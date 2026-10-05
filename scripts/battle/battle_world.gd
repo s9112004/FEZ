@@ -167,23 +167,11 @@ func _on_base_destroyed(base: Stronghold) -> void:
 func show_attack_effect(unit: UnitBody, radius: float, skill: bool) -> void:
 	if not effects_enabled:
 		return
-	var effect := MeshInstance3D.new()
-	var ring := TorusMesh.new()
-	ring.inner_radius = radius - 0.08
-	ring.outer_radius = radius
-	ring.rings = 16
-	ring.ring_segments = 24
-	effect.mesh = ring
-	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color(0.3, 0.8, 1, 0.8) if unit.team == 0 else Color(1, 0.4, 0.2, 0.8)
-	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	effect.material_override = mat
+	var effect := preload("res://scripts/visuals/combat_effect.gd").new()
 	add_child(effect)
 	effect.global_position = unit.global_position + Vector3(0, 0.12, 0)
-	var tween := create_tween()
-	tween.tween_property(mat, "albedo_color:a", 0.0, 0.35 if skill else 0.15)
-	tween.tween_callback(effect.queue_free)
+	effect.rotation.y = atan2(-unit.facing.x, -unit.facing.z)
+	effect.setup(unit.team, radius, skill)
 
 func _build_arena() -> void:
 	add_child(preload("res://assets/environment/arena_visual.tscn").instantiate())
@@ -221,7 +209,7 @@ func _register_inputs() -> void:
 	var bindings := {
 		"move_left": [KEY_A, KEY_LEFT], "move_right": [KEY_D, KEY_RIGHT],
 		"move_forward": [KEY_W, KEY_UP], "move_back": [KEY_S, KEY_DOWN],
-		"lock_target": [KEY_TAB], "skill": [KEY_Q], "restart": [KEY_R]
+		"dodge": [KEY_SPACE], "lock_target": [KEY_TAB], "skill": [KEY_Q], "restart": [KEY_R]
 	}
 	for action in bindings:
 		if not InputMap.has_action(action):

@@ -32,25 +32,39 @@ func _run() -> void:
 	friend.position = Vector3(0, 0, -1)
 	player.face_point(enemy.position)
 	check(world.combat.try_attack(player, enemy), "basic attack fires")
-	check(enemy.hp == 74, "basic attack applies exact damage")
-	check(friend.hp == 100, "basic attack excludes friendly target")
-	check(not world.combat.try_attack(player, enemy) and enemy.hp == 74, "attack cooldown enforced")
+	check(enemy.hp == 162, "basic attack applies exact damage")
+	for hit in range(19):
+		enemy.take_damage(28, player.team)
+	check(enemy.hp == 162 and enemy.is_alive, "19 simultaneous hits cannot instantly kill")
+	check(enemy.health_fill.scale.x < 1, "head bar shrinks after damage")
+	var crowd_victim: UnitBody = world.units[2]
+	for tick in range(120):
+		crowd_victim._physics_process(1.0 / 60.0)
+		for hit in range(19):
+			crowd_victim.take_damage(28, 1)
+	check(crowd_victim.is_alive, "even 19 attackers cannot kill during first two seconds")
+	check(friend.hp == 180, "basic attack excludes friendly target")
+	check(not world.combat.try_attack(player, enemy) and enemy.hp == 162, "attack cooldown enforced")
 	player.attack_remaining = 0
 	enemy.position.z = -10
 	world.combat.try_attack(player, enemy)
-	check(enemy.hp == 74, "range enforced")
+	check(enemy.hp == 162, "range enforced")
 	player.attack_remaining = 0
 	enemy.position = Vector3(0, 0, 2)
 	world.combat.try_attack(player, enemy)
-	check(enemy.hp == 74, "facing enforced")
+	check(enemy.hp == 162, "facing enforced")
 	enemy.position = Vector3(0, 0, -2)
+	for frame in range(26):
+		await physics_frame
 	check(world.combat.try_skill(player), "skill fires")
-	check(enemy.hp == 32 and friend.hp == 100, "AoE damage without friendly fire")
+	check(enemy.hp == 134 and friend.hp == 180, "AoE damage without friendly fire")
 	check(not world.combat.try_skill(player), "skill cooldown enforced")
 	world.cycle_lock_target()
 	check(world.locked_target == enemy, "locks nearby enemy")
-	enemy.take_damage(100, player.team)
-	check(not enemy.is_alive and enemy.hp == 0 and not enemy.visible, "death removes actor from battle")
+	for frame in range(26):
+		await physics_frame
+	enemy.take_damage(999, player.team)
+	check(not enemy.is_alive and enemy.hp == 0 , "death removes actor from battle")
 	check(world.locked_target == null, "death clears target lock")
 	check(not world.combat.try_skill(enemy), "dead unit cannot attack")
 	var death_position := enemy.position
@@ -58,10 +72,20 @@ func _run() -> void:
 	enemy._physics_process(0.1)
 	check(enemy.position == death_position, "dead unit cannot move")
 	world._physics_process(world.config.respawn_delay + 0.1)
-	check(enemy.is_alive and enemy.hp == 100 and enemy.visible, "scheduled respawn restores full health")
+	check(enemy.is_alive and enemy.hp == 180 and enemy.visible, "scheduled respawn restores full health")
 	check(enemy.position.distance_to(world.spawn_position(1, 0)) < 0.01, "respawn at friendly spawn")
+	enemy.take_damage(28, 0)
+	check(enemy.hp == 180, "respawn protection blocks spawn camping")
+	world.combat.try_attack(enemy, player)
+	check(enemy.spawn_guard == 0, "attacking ends spawn protection")
+	check(player.start_dodge(), "evade starts")
+	player.take_damage(28, 1)
+	check(player.hp == 180, "evade protects player")
+	check(not player.start_dodge(), "evade cooldown enforced")
+	player.dodge_remaining = 0
+	player.movement_intent = Vector2.ZERO
 	player.take_damage(50, player.team)
-	check(player.hp == 100, "damage API rejects friendly fire")
+	check(player.hp == 180, "damage API rejects friendly fire")
 	var controller = world.controllers.back()
 	world.camera.yaw = PI / 2
 	Input.action_press("move_forward")
@@ -72,7 +96,7 @@ func _run() -> void:
 	player.face_point(world.bases[1].position)
 	player.attack_remaining = 0
 	world.combat.try_attack(player, world.bases[1])
-	check(world.bases[1].hp == 1174, "base receives combat damage")
+	check(world.bases[1].hp == 3582, "base receives combat damage")
 	world.bases[1].take_damage(9999, 0)
 	check(world.match_over and world.winner == 0, "enemy base destruction wins")
 	var remaining_hp: float = world.bases[0].hp

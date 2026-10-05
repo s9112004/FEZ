@@ -6,3 +6,4 @@ OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Devi
 MATCH START: 10 vs 10; 1 player, 19 AI
 PASS: graphical mouse orbit input
 VISUAL CAPTURE: 0
+COMBAT CAPTURE: 0

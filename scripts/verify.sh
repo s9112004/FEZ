@@ -19,6 +19,7 @@ run_check() {
 run_check import godot --headless --path . --editor --import
 run_check movement godot --headless --path . --script tests/movement_smoke.gd
 run_check battle godot --headless --path . --script tests/battle_smoke.gd
+run_check presentation godot --headless --path . --script tests/presentation_smoke.gd
 run_check input godot --headless --path . --script tests/input_smoke.gd
 run_check simulation godot --headless --fixed-fps 60 --path . --script tests/battle_simulation.gd
 printf 'Validation logs: %s\n' "$log_dir"

@@ -21,7 +21,7 @@ func _run() -> void:
 			previously_dead[unit.unit_id] = not unit.is_alive
 		if world.match_over:
 			break
-	var base_damage: float = 2400 - world.bases[0].hp - world.bases[1].hp
+	var base_damage: float = world.config.base_hp * 2 - world.bases[0].hp - world.bases[1].hp
 	print("SIMULATION: %.1fs | deaths=%d respawns=%d base_damage=%.0f match_over=%s winner=%d" % [world.elapsed, deaths, respawns, base_damage, world.match_over, world.winner])
 	if deaths == 0 or respawns == 0 or base_damage <= 0 or not world.match_over:
 		push_error("AI battle failed to exercise combat, respawn, base damage and result")
